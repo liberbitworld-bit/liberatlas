@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Identidad Soberana — LiberAtlas</title>
+<meta name="description" content="Descubre cómo funciona tu identidad soberana en LiberAtlas. Guía sobre Nostr, claves criptográficas y relays descentralizados.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --black-light: #111111;
+  --black-card: #161616;
+  --black-border: #222222;
+  --gold: #F7931A;
+  --gold-dim: #C47615;
+  --gold-glow: rgba(247, 147, 26, 0.15);
+  --wine: #8B1A2B;
+  --wine-light: #A62038;
+  --cream: #F5F0E8;
+  --cream-dim: #BDB5A8;
+  --gray: #888888;
+  --gray-dark: #444444;
+  --teal: #3a7585;
+  --red: #E74C3C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Top bar */
+.back-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2.5rem;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--black-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+.back-link {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.back-link:hover { color: var(--gold); }
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-brand-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--black);
+}
+.nav-brand-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 6.5rem 24px 5rem;
+}
+
+/* Header */
+.page-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.page-header .tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.2s;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5.5vw, 48px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--cream);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.4s;
+}
+.page-header h1 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 400;
+}
+.page-header .subtitle {
+  font-size: 17px;
+  color: var(--cream-dim);
+  font-weight: 300;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.6s;
+}
+.page-header .gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dim));
+  margin: 2.5rem auto 0;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 0.7s;
+}
+
+/* Section cards */
+.section-card {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: 8px;
+  padding: 2.2rem 2rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s ease forwards;
+}
+.section-card:nth-child(1) { animation-delay: 0.8s; }
+.section-card:nth-child(2) { animation-delay: 0.95s; }
+.section-card:nth-child(3) { animation-delay: 1.1s; }
+.section-card:nth-child(4) { animation-delay: 1.25s; }
+.section-card:nth-child(5) { animation-delay: 1.4s; }
+
+.section-card .icon-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-card .icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+.section-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cream);
+}
+.section-card p {
+  color: var(--cream-dim);
+  line-height: 1.85;
+  font-size: 15px;
+  font-weight: 300;
+}
+.section-card p + p {
+  margin-top: 12px;
+}
+.section-card strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+.hl-gold { color: var(--gold) !important; font-weight: 600 !important; }
+.hl-teal { color: var(--teal) !important; font-weight: 600 !important; }
+
+/* Key boxes */
+.key-box {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0 8px;
+}
+.key-item {
+  flex: 1;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--black-border);
+}
+.key-item.public {
+  background: rgba(58, 117, 133, 0.08);
+  border-color: rgba(58, 117, 133, 0.3);
+}
+.key-item.private {
+  background: rgba(231, 76, 60, 0.06);
+  border-color: rgba(231, 76, 60, 0.2);
+}
+.key-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.key-item.public .key-label { color: var(--teal); }
+.key-item.private .key-label { color: var(--red); }
+.key-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--gray);
+  word-break: break-all;
+}
+.key-desc {
+  font-size: 14px;
+  color: var(--cream-dim);
+  margin-top: 8px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* Warning box */
+.warning-box {
+  background: rgba(231, 76, 60, 0.06);
+  border: 1px solid rgba(231, 76, 60, 0.15);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.warn-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.warning-box p {
+  color: #f1948a !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+/* Comparison grid */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+.compare-item {
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--black-border);
+}
+.compare-item.old {
+  background: rgba(139, 26, 43, 0.08);
+  border-color: rgba(139, 26, 43, 0.2);
+}
+.compare-item.new {
+  background: rgba(247, 147, 26, 0.06);
+  border-color: rgba(247, 147, 26, 0.2);
+}
+.compare-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.compare-item.old .compare-label { color: var(--wine-light); }
+.compare-item.new .compare-label { color: var(--gold); }
+.compare-item p { font-size: 14px !important; line-height: 1.6 !important; }
+
+/* Summary grid */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.summary-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(247, 147, 26, 0.05);
+  border: 1px solid var(--black-border);
+  border-radius: 6px;
+}
+.summary-item .check {
+  color: var(--gold);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.summary-item span {
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Footer */
+.page-footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--black-border);
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 1.6s;
+}
+.page-footer .brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+.page-footer .motto {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--cream-dim);
+  font-size: 18px;
+  margin-top: 8px;
+}
+.page-footer .btn-back {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 10px 28px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--black);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.page-footer .btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--gold-glow);
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .content { padding: 5.5rem 16px 3rem; }
+  .section-card { padding: 20px 16px; }
+  .key-box { flex-direction: column; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .back-nav { padding: 0.8rem 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="back-nav">
+  <a href="/" class="back-link">← Volver</a>
+  <div class="nav-brand">
+    <div class="nav-brand-icon">L</div>
+    <span class="nav-brand-text">LiberAtlas</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <header class="page-header">
+    <div class="tag">Guía para nuevos ciudadanos</div>
+    <h1>Tu <em>Identidad Soberana</em><br>en LiberAtlas</h1>
+    <p class="subtitle">Todo lo que necesitas saber sobre cómo funciona tu identidad digital, tus claves y la red descentralizada que protege tu libertad.</p>
+    <div class="gold-line"></div>
+  </header>
+
+  <div class="sections">
+
+    <!-- 1 -->
+    <div class="section-card">
+      <div class="icon-row">
+        <div class="icon-circle">🔑</div>
+        <h2>Tu identidad no es una cuenta</h2>
+      </div>
+      <p>Cuando te registras en el ecosistema LiberBit, no estás creando una cuenta en el servidor de una empresa. Estás generando una <strong>identidad digital soberana</strong> que te pertenece solo a ti.</p>
+      <p>Se basa en una tecnología llamada <strong class="hl-teal">Nostr</strong>, un protocolo abierto y descentralizado. Funciona de forma muy sencilla: tú tienes dos claves, como una cerradura y su llave.</p>
+
+      <div class="key-box">
+        <div class="key-item public">
+          <div class="key-label">Clave pública · npub</div>
+          <div class="key-code">npub1a7x9...</div>
+          <div class="key-desc">Tu dirección visible. Otros la ven como tu nombre de usuario. Puedes compartirla sin problema.</div>
+        </div>
+        <div class="key-item private">
+          <div class="key-label">Clave privada · nsec</div>
+          <div class="key-code">nsec1k3m2...</div>
+          <div class="key-desc">Tu llave personal. Con ella firmas todo: publicar, votar, enviar mensajes.</div>
+        </div>
+      </div>
+
+      <div class="warning-box">
+        <span class="warn-icon">⚠️</span>
+        <p><strong>Nunca compartas tu clave privada (nsec) con nadie.</strong> Quien la tenga puede actuar como si fuera tú. Guárdala en un lugar seguro, fuera de internet.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="section-card">
+      <div class="icon-row">
+        <div class="icon-circle">🛡️</div>
+        <h2>¿Por qué esto es importante?</h2>
+      </div>
+      <p>En las plataformas tradicionales — Facebook, X, Instagram — tu cuenta le pertenece a la empresa. Si deciden cerrártela, lo pierdes todo: tu identidad, tus contactos, tu historial.</p>
+      <p>En LiberAtlas, <strong class="hl-gold">tu identidad es tuya</strong>. Nadie puede censurarte, bloquearte ni eliminarte, porque no dependes de ningún servidor central. Tú eres el dueño absoluto de tu presencia digital.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="section-card">
+      <div class="icon-row">
+        <div class="icon-circle">📡</div>
+        <h2>¿Dónde se guarda tu información?</h2>
+      </div>
+      <p>Tus publicaciones, votos y mensajes se envían a unos servidores llamados <strong class="hl-teal">relays</strong>. Piensa en ellos como buzones de correo: tu mensaje se deposita ahí para que otros puedan recibirlo.</p>
+      <p>El ecosistema LiberBit cuenta con <strong>relays privados propios</strong> que protegen la información interna de la comunidad — gobernanza, méritos, mensajes cifrados. Además, se conecta a relays públicos para que tu perfil sea visible en el ecosistema Nostr global.</p>
+      <p>Si un relay se cae, no pasa nada: tu identidad sigue siendo tuya y tus datos se replican automáticamente en los demás.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="section-card">
+      <div class="icon-row">
+        <div class="icon-circle">⚡</div>
+        <h2>Plataformas tradicionales vs. LiberBit</h2>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-item old">
+          <div class="compare-label">Centralizado</div>
+          <p>La empresa es dueña de tu cuenta. Puede censurarte, borrarte o venderte.</p>
+        </div>
+        <div class="compare-item new">
+          <div class="compare-label">LiberBit / Nostr</div>
+          <p>Tú eres dueño de tu identidad. Nadie puede censurarte ni eliminarte.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="section-card">
+      <div class="icon-row">
+        <div class="icon-circle">✅</div>
+        <h2>En resumen</h2>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="check">◆</span>
+          <span>Tu identidad te pertenece, no a LiberBit ni a nadie</span>
+        </div>
+        <div class="summary-item">
+          <span class="check">◆</span>
+          <span>Tu clave privada es sagrada: guárdala bien, no la compartas jamás</span>
+        </div>
+        <div class="summary-item">
+          <span class="check">◆</span>
+          <span>Tus datos no dependen de un único servidor</span>
+        </div>
+        <div class="summary-item">
+          <span class="check">◆</span>
+          <span>Nadie puede censurarte ni eliminarte</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="page-footer">
+    <div class="brand">LiberAtlas · LBTC-1</div>
+    <div class="motto">Soberanía digital real. Bienvenido.</div>
+    <a href="/" class="btn-back">← Volver a LiberAtlas</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
