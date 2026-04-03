@@ -509,6 +509,60 @@ body::before {
 }
 .notes-box ul li + li { margin-top: 6px; }
 
+/* ─── CTA RESERVA ─── */
+.cta-reserva {
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards 1.45s;
+}
+.cta-inner {
+  text-align: center;
+  padding: 48px 32px;
+  background: rgba(247,147,26,0.04);
+  border: 1px solid rgba(247,147,26,0.2);
+  border-radius: 12px;
+}
+.cta-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 900;
+  color: var(--cream);
+  margin-bottom: 10px;
+}
+.cta-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.cta-text {
+  font-size: 15px;
+  color: var(--cream-dim);
+  font-weight: 300;
+  max-width: 420px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+.cta-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--black);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  letter-spacing: 0.3px;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--gold-glow);
+}
+
 /* ─── FOOTER ─── */
 .page-footer {
   text-align: center;
@@ -861,6 +915,16 @@ body::before {
       </div>
     </div>
 
+  </div>
+
+  <!-- CTA RESERVA -->
+  <div class="cta-reserva">
+    <div class="cta-inner">
+      <div class="cta-icon">🏡</div>
+      <h2 class="cta-title">¿Listo para <em>reservar</em>?</h2>
+      <p class="cta-text">Elige tu parcela o vivienda y da el primer paso hacia tu nueva vida en LiberAtlas.</p>
+      <a href="reserva.html" class="cta-btn">Quiero reservar mi parcela o vivienda →</a>
+    </div>
   </div>
 
   <footer class="page-footer">
