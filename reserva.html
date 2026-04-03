@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserva tu parcela o vivienda — LiberAtlas</title>
+<meta name="description" content="Reserva tu parcela o vivienda en LiberAtlas. Completa el formulario y nos pondremos en contacto contigo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --black-light: #111111;
+  --black-card: #161616;
+  --black-border: #222222;
+  --gold: #F7931A;
+  --gold-dim: #C47615;
+  --gold-glow: rgba(247, 147, 26, 0.15);
+  --wine: #8B1A2B;
+  --wine-light: #A62038;
+  --cream: #F5F0E8;
+  --cream-dim: #BDB5A8;
+  --gray: #888888;
+  --gray-dark: #444444;
+  --red: #E74C3C;
+  --green: #2ECC71;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── BACK NAV ─── */
+.back-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2.5rem;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--black-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+.back-link {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.back-link:hover { color: var(--gold); }
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-brand-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--black);
+}
+.nav-brand-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+/* ─── CONTENT ─── */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 6.5rem 24px 5rem;
+}
+
+/* ─── PAGE HEADER ─── */
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.page-header .tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.2s;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.35s;
+}
+.page-header h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.page-header .subtitle {
+  font-size: 16px;
+  color: var(--cream-dim);
+  font-weight: 300;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.5s;
+}
+.gold-line {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dim));
+  margin: 24px auto 0;
+  border-radius: 2px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards 0.6s;
+}
+
+/* ─── FORM CARD ─── */
+.form-card {
+  background: var(--black-card);
+  border: 1px solid var(--black-border);
+  border-radius: 12px;
+  padding: 36px 32px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards 0.7s;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+.form-group:last-of-type {
+  margin-bottom: 32px;
+}
+.form-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 8px;
+}
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--black-light);
+  border: 1px solid var(--black-border);
+  border-radius: 8px;
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-input::placeholder {
+  color: var(--gray-dark);
+  font-weight: 300;
+}
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(247, 147, 26, 0.1);
+}
+
+/* Custom select arrow */
+.select-wrapper {
+  position: relative;
+}
+.select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray);
+  font-size: 14px;
+  pointer-events: none;
+}
+.form-select {
+  padding-right: 40px;
+  cursor: pointer;
+}
+.form-select option {
+  background: var(--black-light);
+  color: var(--cream);
+  padding: 8px;
+}
+
+/* Product cards (visual selector) */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+.product-option {
+  position: relative;
+  padding: 16px;
+  background: var(--black-light);
+  border: 1px solid var(--black-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.product-option:hover {
+  border-color: rgba(247,147,26,0.3);
+}
+.product-option.selected {
+  border-color: var(--gold);
+  background: rgba(247,147,26,0.06);
+}
+.product-option input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.product-option .po-type {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 4px;
+}
+.product-option.selected .po-type {
+  color: var(--gold);
+}
+.product-option .po-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 2px;
+}
+.product-option .po-detail {
+  font-size: 12px;
+  color: var(--cream-dim);
+  line-height: 1.4;
+}
+.product-option .po-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--black-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: transparent;
+  transition: all 0.3s;
+}
+.product-option.selected .po-check {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--black);
+}
+
+/* Submit button */
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--gold-glow);
+}
+.btn-submit:active {
+  transform: translateY(0);
+}
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* States */
+.form-status {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: none;
+}
+.form-status.success {
+  display: block;
+  color: var(--green);
+}
+.form-status.error {
+  display: block;
+  color: var(--red);
+}
+
+/* Privacy note */
+.privacy-note {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--gray-dark);
+  line-height: 1.6;
+}
+
+/* ─── FOOTER ─── */
+.page-footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--black-border);
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards 1.0s;
+}
+.page-footer .brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.page-footer .motto {
+  color: var(--cream-dim);
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+  margin-top: 8px;
+}
+.page-footer .btn-back {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--black);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.page-footer .btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px var(--gold-glow);
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .content { padding: 5.5rem 16px 3rem; }
+  .form-card { padding: 24px 18px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .back-nav { padding: 0.8rem 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="back-nav">
+  <a href="tarifas.html" class="back-link">← Tarifas</a>
+  <div class="nav-brand">
+    <div class="nav-brand-icon">L</div>
+    <span class="nav-brand-text">LiberAtlas</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <header class="page-header">
+    <div class="tag">Formulario de reserva</div>
+    <h1>Reserva tu <em>parcela</em> o <em>vivienda</em></h1>
+    <p class="subtitle">Completa tus datos y el producto que te interesa. Nuestro equipo se pondrá en contacto contigo para formalizar la reserva.</p>
+    <div class="gold-line"></div>
+  </header>
+
+  <div class="form-card">
+
+    <div class="form-group">
+      <label class="form-label" for="nombre">Nombre completo</label>
+      <input type="text" id="nombre" class="form-input" placeholder="Tu nombre y apellidos" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Email</label>
+      <input type="email" id="email" class="form-input" placeholder="tu@email.com" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Producto de interés</label>
+      <div class="product-grid">
+
+        <label class="product-option" data-product="parcela-150">
+          <input type="radio" name="producto" value="Parcela 150 m²">
+          <div class="po-check">✓</div>
+          <div class="po-type">Parcela</div>
+          <div class="po-name">150 m²</div>
+          <div class="po-detail">Desde 5.000 € (Fase 0)</div>
+        </label>
+
+        <label class="product-option" data-product="parcela-250">
+          <input type="radio" name="producto" value="Parcela 250 m²">
+          <div class="po-check">✓</div>
+          <div class="po-type">Parcela</div>
+          <div class="po-name">250 m²</div>
+          <div class="po-detail">Desde 10.000 € (Fase 0)</div>
+        </label>
+
+        <label class="product-option" data-product="parcela-500">
+          <input type="radio" name="producto" value="Parcela 500 m²">
+          <div class="po-check">✓</div>
+          <div class="po-type">Parcela</div>
+          <div class="po-name">500 m²</div>
+          <div class="po-detail">Desde 20.000 € (Fase 0)</div>
+        </label>
+
+        <label class="product-option" data-product="vivienda-t1">
+          <input type="radio" name="producto" value="Vivienda T1 (62,5 m²)">
+          <div class="po-check">✓</div>
+          <div class="po-type">Vivienda T1</div>
+          <div class="po-name">62,5 m²</div>
+          <div class="po-detail">Parcela 150 m² · Desde 62.500 €</div>
+        </label>
+
+        <label class="product-option" data-product="vivienda-t2">
+          <input type="radio" name="producto" value="Vivienda T2 (125 m²)">
+          <div class="po-check">✓</div>
+          <div class="po-type">Vivienda T2</div>
+          <div class="po-name">125 m²</div>
+          <div class="po-detail">Parcela 250 m² · Desde 125.000 €</div>
+        </label>
+
+        <label class="product-option" data-product="vivienda-t3">
+          <input type="radio" name="producto" value="Vivienda T3 (250 m²)">
+          <div class="po-check">✓</div>
+          <div class="po-type">Vivienda T3</div>
+          <div class="po-name">250 m²</div>
+          <div class="po-detail">Parcela 500 m² · Desde 250.000 €</div>
+        </label>
+
+      </div>
+    </div>
+
+    <button class="btn-submit" id="btnSubmit" onclick="handleSubmit()">
+      Enviar solicitud de reserva
+    </button>
+
+    <div class="form-status" id="formStatus"></div>
+
+    <p class="privacy-note">
+      Tus datos se utilizarán exclusivamente para gestionar tu solicitud.<br>
+      No compartimos tu información con terceros.
+    </p>
+
+  </div>
+
+  <footer class="page-footer">
+    <div class="brand">LiberAtlas · LBTC-1</div>
+    <div class="motto">La primera ciudad soberana de la Península Ibérica.</div>
+    <a href="/" class="btn-back">← Volver a LiberAtlas</a>
+  </footer>
+
+</div>
+
+<script>
+// ─── Product card selection ───
+document.querySelectorAll('.product-option input').forEach(radio => {
+  radio.addEventListener('change', () => {
+    document.querySelectorAll('.product-option').forEach(opt => opt.classList.remove('selected'));
+    radio.closest('.product-option').classList.add('selected');
+  });
+});
+
+// ─── CONFIGURATION ───
+// TODO: Reemplazar con tu Formspree ID real
+const FORMSPREE_URL = 'https://formspree.io/f/TU_FORMSPREE_ID';
+const SUPABASE_PROXY = 'https://liberbit-api.vercel.app/api/db';
+const SUPABASE_TABLE = 'liberatlas_reservas';
+
+// ─── Submit handler ───
+async function handleSubmit() {
+  const btn = document.getElementById('btnSubmit');
+  const status = document.getElementById('formStatus');
+
+  const nombre = document.getElementById('nombre').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const productoRadio = document.querySelector('input[name="producto"]:checked');
+
+  // Validation
+  if (!nombre || !email || !productoRadio) {
+    status.className = 'form-status error';
+    status.textContent = 'Por favor, completa todos los campos y selecciona un producto.';
+    return;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    status.className = 'form-status error';
+    status.textContent = 'Por favor, introduce un email válido.';
+    return;
+  }
+
+  const producto = productoRadio.value;
+
+  // Disable button
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  status.className = 'form-status';
+  status.style.display = 'none';
+
+  const formData = { nombre, email, producto };
+
+  let formspreeOk = false;
+  let supabaseOk = false;
+
+  // 1. Formspree
+  try {
+    const res = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    formspreeOk = res.ok;
+  } catch (e) {
+    console.error('Formspree error:', e);
+  }
+
+  // 2. Supabase via proxy
+  try {
+    const res = await fetch(SUPABASE_PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table: SUPABASE_TABLE,
+        operation: 'insert',
+        data: {
+          nombre: nombre,
+          email: email,
+          producto: producto
+        }
+      })
+    });
+    supabaseOk = res.ok;
+  } catch (e) {
+    console.error('Supabase error:', e);
+  }
+
+  // Result
+  if (formspreeOk || supabaseOk) {
+    status.className = 'form-status success';
+    status.textContent = '✓ Solicitud enviada correctamente. Nos pondremos en contacto contigo pronto.';
+    // Reset form
+    document.getElementById('nombre').value = '';
+    document.getElementById('email').value = '';
+    document.querySelectorAll('.product-option').forEach(opt => opt.classList.remove('selected'));
+    if (productoRadio) productoRadio.checked = false;
+  } else {
+    status.className = 'form-status error';
+    status.textContent = 'Error al enviar la solicitud. Inténtalo de nuevo o contacta con nosotros directamente.';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Enviar solicitud de reserva';
+}
+</script>
+
+</body>
+</html>
