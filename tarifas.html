@@ -7,161 +7,143 @@
 <meta name="description" content="Estructura de precios por fases para parcelas y viviendas en LiberAtlas. Un modelo diseñado para recompensar a los primeros en creer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --black: #0A0A0A;
-  --black-light: #111111;
-  --black-card: #161616;
-  --black-border: #222222;
-  --gold: #F7931A;
-  --gold-dim: #C47615;
-  --gold-glow: rgba(247, 147, 26, 0.15);
-  --wine: #8B1A2B;
-  --wine-light: #A62038;
-  --cream: #F5F0E8;
-  --cream-dim: #BDB5A8;
-  --gray: #888888;
-  --gray-dark: #444444;
-  --red: #E74C3C;
+  --stone:        #F3F1EC;
+  --stone-mid:    #EAE6DE;
+  --stone-deep:   #DDD8CE;
+  --white:        #FFFFFF;
+  --atlantic:     #0F2A3A;
+  --atlantic-mid: #2A4A5C;
+  --atlantic-dim: rgba(15,42,58,0.48);
+  --gold:         #C4A96A;
+  --gold-dim:     #A8874A;
+  --gold-tint:    rgba(196,169,106,0.10);
+  --gold-border:  rgba(196,169,106,0.32);
+  --olive:        #6E7C64;
+  --olive-tint:   rgba(110,124,100,0.10);
+  --border:       rgba(15,42,58,0.09);
+  --border-hover: rgba(196,169,106,0.4);
+  --shadow-card:  0 1px 3px rgba(15,42,58,0.06), 0 4px 16px rgba(15,42,58,0.04);
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--black);
-  color: var(--cream);
+  font-family: var(--font-sans);
+  background: var(--stone);
+  color: var(--atlantic);
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Noise overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.03;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ─── BACK NAV ─── */
+/* ─── NAV ─── */
 .back-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 1rem 2.5rem;
-  background: rgba(10,10,10,0.85);
+  padding: 0.9rem 2.5rem;
+  background: rgba(243,241,236,0.94);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--black-border);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.3s;
 }
 .back-link {
-  color: var(--cream-dim);
+  color: var(--atlantic-dim);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  transition: color 0.3s;
+  letter-spacing: 0.02em;
+  transition: color 0.25s;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
-.back-link:hover { color: var(--gold); }
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.back-link:hover { color: var(--gold-dim); }
+.nav-brand { display: flex; align-items: center; gap: 9px; }
 .nav-brand-icon {
-  width: 32px; height: 32px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-weight: 900;
-  font-size: 16px;
-  color: var(--black);
+  width: 30px; height: 30px;
+  border-radius: 4px;
+  background: var(--atlantic);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-serif);
+  font-weight: 600; font-size: 15px;
+  color: var(--gold);
 }
 .nav-brand-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--cream);
+  font-family: var(--font-serif);
+  font-size: 17px; font-weight: 600;
+  color: var(--atlantic); letter-spacing: 0.01em;
 }
 
 /* ─── CONTENT ─── */
 .content {
-  position: relative;
-  z-index: 1;
   max-width: 760px;
   margin: 0 auto;
   padding: 6.5rem 24px 5rem;
 }
 
-/* ─── PAGE HEADER ─── */
+/* ─── HEADER ─── */
 .page-header {
   text-align: center;
   margin-bottom: 3.5rem;
 }
 .page-header .tag {
   display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3.5px;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
+  color: var(--olive);
+  margin-bottom: 1.5rem;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards 0.2s;
 }
 .page-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 5vw, 48px);
-  font-weight: 900;
+  font-family: var(--font-serif);
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 300;
   line-height: 1.1;
-  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards 0.35s;
 }
-.page-header h1 em {
-  font-style: italic;
-  color: var(--gold);
-}
+.page-header h1 em { font-style: italic; font-weight: 400; color: var(--gold-dim); }
 .page-header .subtitle {
   font-size: 16px;
-  color: var(--cream-dim);
+  color: var(--atlantic-dim);
   font-weight: 300;
-  max-width: 560px;
+  max-width: 540px;
   margin: 0 auto;
-  line-height: 1.8;
+  line-height: 1.85;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards 0.5s;
 }
-.gold-line {
-  width: 60px; height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-dim));
-  margin: 24px auto 0;
-  border-radius: 2px;
+.gold-rule {
+  width: 48px; height: 1px;
+  background: var(--gold);
+  margin: 22px auto 0;
   opacity: 0;
-  animation: fadeUp 0.6s ease forwards 0.6s;
+  animation: fadeUp 0.5s ease forwards 0.6s;
 }
 
 /* ─── SECTION CARDS ─── */
 .section-card {
-  background: var(--black-card);
-  border: 1px solid var(--black-border);
-  border-radius: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
   padding: 28px 28px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
   opacity: 0;
   transform: translateY(16px);
   animation: fadeUp 0.5s ease forwards;
@@ -170,116 +152,79 @@ body::before {
 .section-card:nth-child(2) { animation-delay: 0.85s; }
 .section-card:nth-child(3) { animation-delay: 1.0s; }
 .section-card:nth-child(4) { animation-delay: 1.15s; }
-.section-card:nth-child(5) { animation-delay: 1.3s; }
 
-.card-icon-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
+.card-icon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
 .card-icon {
   width: 40px; height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+  background: var(--atlantic);
 }
 .card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--cream);
+  font-family: var(--font-serif);
+  font-size: 22px; font-weight: 600;
+  color: var(--atlantic); letter-spacing: 0.01em;
 }
-.card-text {
-  color: var(--cream-dim);
-  line-height: 1.8;
-  font-size: 15px;
-  font-weight: 300;
-}
+.card-text { color: var(--atlantic-mid); line-height: 1.85; font-size: 15px; font-weight: 300; }
 .card-text + .card-text { margin-top: 10px; }
-.card-text strong { color: var(--cream); font-weight: 500; }
-.card-text .gold { color: var(--gold); font-weight: 500; }
+.card-text strong { color: var(--atlantic); font-weight: 500; }
+.card-text .gold { color: var(--gold-dim); font-weight: 500; }
 
 /* ─── MODEL CARDS ─── */
 .model-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
   margin: 20px 0 8px;
 }
 .model-card {
   padding: 20px;
-  background: var(--black-light);
-  border: 1px solid var(--black-border);
-  border-radius: 10px;
-  transition: border-color 0.3s;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: border-color 0.25s;
 }
-.model-card:hover { border-color: rgba(247,147,26,0.3); }
+.model-card:hover { border-color: var(--gold-border); }
 .mc-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 9.5px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--atlantic-dim);
   margin-bottom: 8px;
 }
 .mc-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--gold);
-  margin-bottom: 4px;
+  font-family: var(--font-serif);
+  font-size: 36px; font-weight: 600;
+  color: var(--gold-dim); margin-bottom: 4px;
+  line-height: 1;
 }
-.mc-desc {
-  font-size: 13px;
-  color: var(--cream-dim);
-  line-height: 1.5;
-}
+.mc-desc { font-size: 13px; color: var(--atlantic-mid); line-height: 1.5; font-weight: 300; }
 
 /* ─── APPRECIATION BAR ─── */
 .appreciation-bar {
-  display: flex;
-  gap: 4px;
-  margin: 20px 0 12px;
-  height: 52px;
+  display: flex; gap: 4px;
+  margin: 20px 0 10px;
+  height: 50px;
 }
 .phase-block {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--black-light);
-  border: 1px solid var(--black-border);
-  border-radius: 8px;
-  transition: all 0.3s;
-  cursor: default;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: all 0.25s; cursor: default;
 }
-.phase-block:hover {
-  border-color: var(--gold);
-  background: rgba(247,147,26,0.06);
-}
+.phase-block:hover { border-color: var(--gold-border); background: var(--gold-tint); }
 .ph-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: var(--gray);
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 1px; color: var(--atlantic-dim);
 }
-.ph-mult {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--gold);
-}
+.ph-mult { font-size: 12px; font-weight: 600; color: var(--gold-dim); }
 .bar-caption {
-  font-size: 12px;
-  color: var(--gray);
-  font-style: italic;
-  text-align: center;
-  margin-bottom: 4px;
+  font-size: 12px; color: var(--atlantic-dim);
+  font-style: italic; text-align: center;
+  margin-bottom: 4px; font-family: var(--font-serif); font-size: 14px;
 }
 
 /* ─── TABLES ─── */
@@ -287,321 +232,212 @@ body::before {
   margin-top: 20px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border-radius: 10px;
-  border: 1px solid var(--black-border);
+  border-radius: 5px;
+  border: 1px solid var(--border);
 }
-.table-wrapper::-webkit-scrollbar { height: 4px; }
-.table-wrapper::-webkit-scrollbar-track { background: var(--black-light); }
-.table-wrapper::-webkit-scrollbar-thumb { background: var(--black-border); border-radius: 2px; }
+.table-wrapper::-webkit-scrollbar { height: 3px; }
+.table-wrapper::-webkit-scrollbar-track { background: var(--stone); }
+.table-wrapper::-webkit-scrollbar-thumb { background: var(--stone-deep); border-radius: 2px; }
 
 .tariff-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 680px;
+  width: 100%; border-collapse: collapse; min-width: 680px;
 }
 .tariff-table thead th {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
-  padding: 14px 14px;
+  font-family: var(--font-mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--atlantic-dim);
+  padding: 13px 14px;
   text-align: right;
-  border-bottom: 1px solid var(--black-border);
-  background: var(--black-light);
+  border-bottom: 1px solid var(--border);
+  background: var(--stone-mid);
   white-space: nowrap;
 }
 .tariff-table thead th:first-child { text-align: left; }
 .tariff-table tbody td {
-  padding: 12px 14px;
+  padding: 11px 14px;
   text-align: right;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--cream-dim);
-  border-bottom: 1px solid rgba(34,34,34,0.5);
+  font-size: 13.5px; font-weight: 400;
+  color: var(--atlantic-mid);
+  border-bottom: 1px solid rgba(15,42,58,0.05);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.tariff-table tbody tr:nth-child(even) { background: rgba(22,22,22,0.5); }
-.tariff-table tbody tr:hover { background: rgba(247,147,26,0.04); }
+.tariff-table tbody tr:nth-child(even) { background: rgba(243,241,236,0.4); }
+.tariff-table tbody tr:hover { background: var(--gold-tint); }
 .tariff-table tbody td:first-child {
-  text-align: left;
-  color: var(--cream);
-  font-weight: 500;
+  text-align: left; color: var(--atlantic); font-weight: 500;
 }
-.tariff-table .phase-0 { color: var(--gold); font-weight: 600; }
+.tariff-table .phase-0 { color: var(--gold-dim); font-weight: 600; }
 .col-tipo { min-width: 140px; }
 .col-meta {
-  color: var(--gray) !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 12px !important;
+  color: var(--atlantic-dim) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
 }
-
-/* Phase active marker */
 .phase-col { position: relative; }
 .phase-col.active::after {
   content: 'ACTUAL';
-  display: block;
-  font-size: 8px;
-  letter-spacing: 1.5px;
-  color: var(--gold);
-  margin-top: 2px;
+  display: block; font-size: 7px; letter-spacing: 1.5px; color: var(--gold-dim);
+  margin-top: 1px;
 }
 
 /* ─── INSIGHTS ─── */
 .insights {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 20px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-top: 18px;
 }
 .insight-item {
-  padding: 16px;
-  border-left: 3px solid var(--gold);
-  background: var(--black-light);
-  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  border-left: 2px solid var(--gold);
+  background: var(--stone);
+  border-radius: 0 5px 5px 0;
 }
 .ins-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 900;
-  color: var(--gold);
-  margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-size: 24px; font-weight: 600;
+  color: var(--gold-dim); margin-bottom: 2px; line-height: 1;
 }
-.ins-text {
-  font-size: 12px;
-  color: var(--cream-dim);
-  line-height: 1.45;
-}
+.ins-text { font-size: 12px; color: var(--atlantic-mid); line-height: 1.45; font-weight: 300; }
 
 /* ─── CONCEPT DIAGRAM ─── */
 .concept-diagram {
-  margin: 20px 0;
-  padding: 24px;
-  background: var(--black-light);
-  border: 1px solid var(--black-border);
-  border-radius: 10px;
+  margin: 18px 0;
+  padding: 22px;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 5px;
 }
 .cd-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 18px;
-  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--atlantic-dim);
+  margin-bottom: 18px; text-align: center;
 }
-.concept-layers {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-width: 460px;
-  margin: 0 auto;
-}
+.concept-layers { display: flex; flex-direction: column; gap: 6px; max-width: 460px; margin: 0 auto; }
 .concept-layer {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  border: 1px solid var(--black-border);
-  border-radius: 8px;
-  transition: border-color 0.3s;
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: border-color 0.25s;
 }
-.concept-layer:hover { border-color: rgba(247,147,26,0.3); }
-.cl-icon { font-size: 22px; flex-shrink: 0; width: 36px; text-align: center; }
-.cl-name { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 2px; }
-.cl-desc { font-size: 13px; color: var(--cream-dim); line-height: 1.5; }
-.concept-layer.layer-solar {
-  background: rgba(247,147,26,0.06);
-  border-color: rgba(247,147,26,0.25);
-}
-.concept-layer.layer-solar .cl-name { color: var(--gold); }
-.concept-arrow {
-  text-align: center;
-  color: var(--gray-dark);
-  font-size: 11px;
-  line-height: 1;
-}
+.concept-layer:hover { border-color: var(--gold-border); }
+.cl-icon { font-size: 20px; flex-shrink: 0; width: 32px; text-align: center; }
+.cl-name { font-size: 14px; font-weight: 500; color: var(--atlantic); margin-bottom: 2px; }
+.cl-desc { font-size: 13px; color: var(--atlantic-mid); line-height: 1.5; font-weight: 300; }
+.concept-layer.layer-solar { background: var(--gold-tint); border-color: var(--gold-border); }
+.concept-layer.layer-solar .cl-name { color: var(--gold-dim); }
+.concept-arrow { text-align: center; color: var(--stone-deep); font-size: 11px; line-height: 1; }
 
-/* ─── TIPOLOGÍA CARDS ─── */
-.tipo-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 18px 0;
-}
+/* ─── TIPO CARDS ─── */
+.tipo-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0; }
 .tipo-card {
   padding: 18px;
-  background: var(--black-light);
-  border: 1px solid var(--black-border);
-  border-radius: 10px;
-  transition: border-color 0.3s;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  transition: border-color 0.25s;
 }
-.tipo-card:hover { border-color: rgba(247,147,26,0.3); }
+.tipo-card:hover { border-color: var(--gold-border); }
 .tc-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 8px;
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 8px;
 }
 .tc-area {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px;
-  font-weight: 900;
-  color: var(--cream);
-  margin-bottom: 4px;
+  font-family: var(--font-serif); font-size: 28px; font-weight: 600;
+  color: var(--atlantic); margin-bottom: 4px; line-height: 1;
 }
-.tc-detail {
-  font-size: 13px;
-  color: var(--cream-dim);
-  line-height: 1.55;
-}
-.tc-detail strong { color: var(--cream); font-weight: 500; }
+.tc-detail { font-size: 12.5px; color: var(--atlantic-mid); line-height: 1.55; font-weight: 300; }
+.tc-detail strong { color: var(--atlantic); font-weight: 500; }
 
-/* ─── URBANIZATION NOTE ─── */
+/* ─── URB NOTE ─── */
 .urb-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin: 18px 0;
-  padding: 18px 22px;
-  background: rgba(247,147,26,0.04);
-  border: 1px solid rgba(247,147,26,0.2);
-  border-radius: 10px;
+  display: flex; align-items: flex-start; gap: 14px;
+  margin: 18px 0; padding: 18px 22px;
+  background: var(--gold-tint);
+  border: 1px solid var(--gold-border);
+  border-radius: 5px;
 }
-.un-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
-.un-title { font-size: 15px; font-weight: 600; color: var(--gold); margin-bottom: 4px; }
-.un-text { font-size: 14px; color: var(--cream-dim); line-height: 1.7; }
-.un-text strong { color: var(--cream); font-weight: 500; }
+.un-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.un-title { font-size: 14px; font-weight: 600; color: var(--gold-dim); margin-bottom: 4px; }
+.un-text { font-size: 14px; color: var(--atlantic-mid); line-height: 1.7; font-weight: 300; }
+.un-text strong { color: var(--atlantic); font-weight: 500; }
 
 /* ─── NOTES BOX ─── */
 .notes-box {
-  margin-top: 14px;
-  padding: 22px 24px;
-  background: var(--black-light);
-  border: 1px solid var(--black-border);
-  border-radius: 10px;
+  margin-top: 12px; padding: 22px 24px;
+  background: var(--stone);
+  border: 1px solid var(--border);
+  border-radius: 5px;
 }
 .nb-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 12px;
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--atlantic-dim); margin-bottom: 14px;
 }
 .notes-box ul { list-style: none; }
 .notes-box ul li {
-  font-size: 14px;
-  color: var(--cream-dim);
-  line-height: 1.75;
-  padding-left: 20px;
-  position: relative;
+  font-size: 14px; color: var(--atlantic-mid);
+  line-height: 1.8; padding-left: 20px; position: relative; font-weight: 300;
 }
-.notes-box ul li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--gray-dark);
-}
+.notes-box ul li::before { content: '—'; position: absolute; left: 0; color: var(--gold); }
 .notes-box ul li + li { margin-top: 6px; }
 
-/* ─── CTA RESERVA ─── */
+/* ─── CTA ─── */
 .cta-reserva {
   margin-top: 2rem;
-  opacity: 0;
-  transform: translateY(16px);
-  animation: fadeUp 0.5s ease forwards 1.45s;
+  opacity: 0; transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards 1.2s;
 }
 .cta-inner {
   text-align: center;
   padding: 48px 32px;
-  background: rgba(247,147,26,0.04);
-  border: 1px solid rgba(247,147,26,0.2);
-  border-radius: 12px;
+  background: var(--atlantic);
+  border-radius: 6px;
 }
-.cta-icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-}
+.cta-icon { font-size: 32px; margin-bottom: 14px; }
 .cta-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(22px, 4vw, 30px);
-  font-weight: 900;
-  color: var(--cream);
-  margin-bottom: 10px;
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 4vw, 34px); font-weight: 300;
+  color: var(--stone); margin-bottom: 10px; letter-spacing: -0.01em;
 }
-.cta-title em {
-  font-style: italic;
-  color: var(--gold);
-}
+.cta-title em { font-style: italic; font-weight: 400; color: var(--gold); }
 .cta-text {
-  font-size: 15px;
-  color: var(--cream-dim);
-  font-weight: 300;
-  max-width: 420px;
-  margin: 0 auto 24px;
-  line-height: 1.7;
+  font-size: 15px; color: rgba(243,241,236,0.65); font-weight: 300;
+  max-width: 400px; margin: 0 auto 24px; line-height: 1.75;
 }
 .cta-btn {
-  display: inline-block;
-  padding: 16px 36px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-  color: var(--black);
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.3s;
-  letter-spacing: 0.3px;
+  display: inline-block; padding: 14px 36px;
+  background: var(--gold); color: var(--atlantic);
+  border-radius: 3px; font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all 0.25s; letter-spacing: 0.02em;
 }
-.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px var(--gold-glow);
-}
+.cta-btn:hover { background: var(--gold-dim); transform: translateY(-1px); }
 
 /* ─── FOOTER ─── */
 .page-footer {
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--black-border);
-  opacity: 0;
-  animation: fadeUp 0.5s ease forwards 1.5s;
+  text-align: center; margin-top: 3rem;
+  padding-top: 2.5rem; border-top: 1px solid var(--border);
+  opacity: 0; animation: fadeUp 0.5s ease forwards 1.3s;
 }
 .page-footer .brand {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--atlantic-dim);
 }
 .page-footer .motto {
-  color: var(--cream-dim);
-  font-size: 14px;
-  font-weight: 300;
-  font-style: italic;
-  margin-top: 8px;
+  font-family: var(--font-serif); font-style: italic; font-weight: 300;
+  color: var(--atlantic-mid); font-size: 20px; margin-top: 10px;
 }
 .page-footer .btn-back {
-  display: inline-block;
-  margin-top: 24px;
-  padding: 12px 28px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-  color: var(--black);
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s;
+  display: inline-block; margin-top: 22px; padding: 11px 28px;
+  background: var(--atlantic); color: var(--stone);
+  border-radius: 3px; font-size: 13px; font-weight: 500;
+  text-decoration: none; letter-spacing: 0.02em; transition: all 0.25s;
 }
-.page-footer .btn-back:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px var(--gold-glow);
-}
+.page-footer .btn-back:hover { background: var(--atlantic-mid); transform: translateY(-1px); }
 
 @keyframes fadeUp {
   to { opacity: 1; transform: translateY(0); }
@@ -620,7 +456,6 @@ body::before {
 </head>
 <body>
 
-<!-- Top bar -->
 <div class="back-nav">
   <a href="/" class="back-link">← Volver</a>
   <div class="nav-brand">
@@ -635,12 +470,12 @@ body::before {
     <div class="tag">Parcelas · Viviendas · Fases</div>
     <h1>Tarifas <em>Dinámicas</em></h1>
     <p class="subtitle">Estructura de precios por fases para parcelas y viviendas en LiberAtlas. Un modelo diseñado para recompensar a los primeros en creer.</p>
-    <div class="gold-line"></div>
+    <div class="gold-rule"></div>
   </header>
 
   <div class="sections">
 
-    <!-- 1. MODELO DE APRECIACIÓN -->
+    <!-- 1. APRECIACIÓN -->
     <div class="section-card">
       <div class="card-icon-row">
         <div class="card-icon">📈</div>
@@ -766,7 +601,6 @@ body::before {
         Todas las viviendas de LiberAtlas son de <strong>una única planta</strong>, diseñadas con un concepto arquitectónico de tres capas que maximiza el espacio habitable y la generación de energía. Cada residencia se construye sobre su parcela correspondiente e incluye cubierta solar completa.
       </p>
 
-      <!-- Concepto arquitectónico -->
       <div class="concept-diagram">
         <div class="cd-title">Concepto arquitectónico · sección vertical</div>
         <div class="concept-layers">
@@ -796,7 +630,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Tipologías -->
       <div class="tipo-cards">
         <div class="tipo-card">
           <div class="tc-label">Tipología T1</div>
@@ -815,7 +648,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Urbanizaciones -->
       <div class="urb-note">
         <div class="un-icon">🏘️</div>
         <div>
@@ -824,7 +656,6 @@ body::before {
         </div>
       </div>
 
-      <!-- Tabla de precios -->
       <div class="table-wrapper">
         <table class="tariff-table">
           <thead>
@@ -900,11 +731,10 @@ body::before {
         <div class="card-icon">📋</div>
         <div class="card-title">Condiciones y notas</div>
       </div>
-
       <div class="notes-box">
         <div class="nb-title">Notas sobre el modelo</div>
         <ul>
-          <li>Los precios se expresan en EUR. LiberAtlas acepta pagos en <strong style="color:var(--gold)">Bitcoin</strong> al tipo de cambio vigente en el momento de la operación.</li>
+          <li>Los precios se expresan en EUR. LiberAtlas acepta pagos en <strong style="color:var(--gold-dim)">Bitcoin</strong> al tipo de cambio vigente en el momento de la operación.</li>
           <li>La transición entre fases es determinada por el avance de infraestructura y aprobada por los órganos de gobernanza de LiberBit World.</li>
           <li>Las parcelas se venden como suelo urbanizable con derecho a edificación conforme al plan maestro.</li>
           <li>Las viviendas se entregan con acabados de alta calidad, cubierta solar fotovoltaica completa, azotea practicable, conexión a fibra óptica y red energética comunitaria.</li>
@@ -934,6 +764,5 @@ body::before {
   </footer>
 
 </div>
-
 </body>
 </html>
